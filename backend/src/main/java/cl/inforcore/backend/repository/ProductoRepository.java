@@ -14,15 +14,22 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     boolean existsByCodigo(String codigo);
 
-    /** Para la regla "no se elimina una categoría que tiene productos". */
-    boolean existsByCategoria(Categoria categoria);
+    /** Cuántos productos tiene una categoría: para mostrarlo y para no eliminarla si tiene. */
+    long countByCategoria(Categoria categoria);
 
     List<Producto> findAllByOrderByIdAsc();
 
     /** "CategoriaCodigo" navega la relación: producto.categoria.codigo. */
     List<Producto> findByCategoriaCodigoOrderByIdAsc(String codigoCategoria);
 
-    /** Productos en oferta: los que tienen precio de oferta. */
+    /**
+     * Búsqueda por texto (clase del 02-11): "Containing" se traduce a
+     * LIKE '%texto%' e "IgnoreCase" compara sin importar mayúsculas. Busca el
+     * texto en el nombre O en el código del producto.
+     */
+    List<Producto> findByNombreContainingIgnoreCaseOrCodigoContainingIgnoreCaseOrderByIdAsc(String nombre, String codigo);
+
+    /** Productos con precio de oferta (el servicio además revisa que sea menor al precio). */
     List<Producto> findByPrecioOfertaIsNotNullOrderByIdAsc();
 
     /**

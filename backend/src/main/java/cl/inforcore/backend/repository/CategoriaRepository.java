@@ -12,9 +12,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
     boolean existsByCodigo(String codigo);
 
-    /** IgnoreCase: "monitores" y "Monitores" cuentan como el mismo nombre. */
-    boolean existsByNombreIgnoreCase(String nombre);
-
     /** En orden de creación, como se mostraban en la EP2. */
     List<Categoria> findAllByOrderByIdAsc();
 }
